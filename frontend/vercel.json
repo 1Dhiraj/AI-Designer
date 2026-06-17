@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/generate",
-      "destination": "REPLACE_WITH_RENDER_URL/generate"
+      "destination": "https://ai-designer-owpm.onrender.com/generate"
     }
   ]
 }
