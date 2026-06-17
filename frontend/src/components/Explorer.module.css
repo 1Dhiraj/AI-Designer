@@ -1,0 +1,17 @@
+.explorer { width: 220px; min-width: 180px; background: var(--bg-2); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; }
+.head { display: flex; align-items: center; padding: 0 10px 0 14px; height: 42px; border-bottom: 1px solid var(--border); gap: 2px; flex-shrink: 0; }
+.title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: var(--text-3); flex: 1; }
+.btn { width: 26px; height: 26px; background: transparent; border: none; border-radius: 6px; color: var(--text-3); display: flex; align-items: center; justify-content: center; gap: 1px; transition: all 0.1s; }
+.btn:hover { background: var(--bg-3); color: var(--text-1); }
+.tree { flex: 1; overflow-y: auto; padding: 4px 0; }
+.empty { padding: 28px 14px; text-align: center; color: var(--text-3); font-size: 12px; line-height: 1.7; }
+.node { position: relative; }
+.row { display: flex; align-items: center; gap: 4px; padding: 5px 8px; cursor: pointer; border-radius: 7px; margin: 1px 6px; transition: background 0.1s; font-size: 13px; color: var(--text-2); min-height: 30px; font-weight: 500; user-select: none; }
+.row:hover { background: var(--bg-3); }
+.selected { background: var(--accent-l) !important; color: var(--accent) !important; }
+.selected .name { color: var(--accent); }
+.toggle { width: 14px; height: 14px; display: flex; align-items: center; justify-content: center; color: var(--text-3); flex-shrink: 0; transition: transform 0.15s; }
+.open { transform: rotate(90deg); }
+.icon { display: flex; flex-shrink: 0; }
+.name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nameInput { flex: 1; background: var(--accent-l); border: 1px solid var(--accent-b); border-radius: 4px; color: var(--text-1); font-size: 13px; padding: 1px 6px; outline: none; font-family: inherit; min-width: 0; }

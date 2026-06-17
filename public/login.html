@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Website Builder — Sign In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    :root {
+      --bg:       #FAFAFA;
+      --bg-2:     #FFFFFF;
+      --bg-3:     #F2F2F2;
+      --border:   #E8E8E8;
+      --text-1:   #111111;
+      --text-2:   #666666;
+      --text-3:   #AAAAAA;
+      --accent:   #F05A1A;
+      --accent-l: rgba(240,90,26,0.1);
+      --accent-b: rgba(240,90,26,0.3);
+      --shadow:   0 1px 4px rgba(0,0,0,0.06);
+      --shadow-m: 0 8px 32px rgba(0,0,0,0.08);
+    }
+    [data-theme="dark"] {
+      --bg:       #0C0C0C;
+      --bg-2:     #161616;
+      --bg-3:     #1E1E1E;
+      --border:   #2A2A2A;
+      --text-1:   #F5F5F5;
+      --text-2:   #888888;
+      --text-3:   #444444;
+      --accent:   #F05A1A;
+      --accent-l: rgba(240,90,26,0.12);
+      --accent-b: rgba(240,90,26,0.35);
+      --shadow:   0 1px 4px rgba(0,0,0,0.4);
+      --shadow-m: 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text-1);
+      height: 100vh;
+      display: flex;
+      overflow: hidden;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    /* ── BRAND PANEL ── */
+    .brand-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 36px 48px 36px;
+      background: var(--bg-2);
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .brand-dot {
+      width: 30px; height: 30px;
+      background: var(--accent);
+      border-radius: 7px;
+    }
+
+    .brand-name {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text-1);
+    }
+
+    .brand-text {
+      margin-top: 40px;
+      flex-shrink: 0;
+    }
+
+    .brand-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--accent-l);
+      border: 1px solid var(--accent-b);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .brand-tag-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    .brand-heading {
+      font-size: clamp(30px, 3.2vw, 46px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -2px;
+      color: var(--text-1);
+      margin-bottom: 14px;
+    }
+
+    .brand-heading span { color: var(--accent); }
+
+    .brand-desc {
+      font-size: 15px;
+      color: var(--text-2);
+      line-height: 1.65;
+      max-width: 420px;
+      font-weight: 400;
+    }
+
+    /* 3D Canvas Area */
+    .model-wrap {
+      flex: 1;
+      min-height: 0;
+      position: relative;
+      margin: 20px -48px 0;
+    }
+
+    #model-canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+    }
+
+    #model-canvas:active { cursor: grabbing; }
+
+    .model-hint {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--text-3);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      opacity: 1;
+      transition: opacity 1s ease;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .model-hint.hidden { opacity: 0; }
+
+    .model-hint svg { opacity: 0.6; }
+
+    /* Feature pills */
+    .feature-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+      padding-top: 16px;
+    }
+
+    .feature-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-2);
+    }
+
+    .feature-pill svg { color: var(--accent); flex-shrink: 0; }
+
+    /* ── AUTH PANEL ── */
+    .auth-panel {
+      width: 440px;
+      min-width: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+      background: var(--bg);
+    }
+
+    .auth-card { width: 100%; }
+
+    .auth-heading {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      color: var(--text-1);
+      margin-bottom: 6px;
+    }
+
+    .auth-sub {
+      font-size: 14px;
+      color: var(--text-2);
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+    }
+
+    .auth-tab {
+      padding: 10px 0;
+      margin-right: 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text-3);
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all 0.15s;
+    }
+
+    .auth-tab.active {
+      color: var(--text-1);
+      border-bottom-color: var(--accent);
+    }
+
+    .form-group { margin-bottom: 16px; }
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-2);
+      margin-bottom: 7px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-1);
+      font-size: 14px;
+      padding: 12px 14px;
+      outline: none;
+      font-family: inherit;
+      font-weight: 500;
+      transition: border-color 0.15s;
+    }
+
+    input:focus { border-color: var(--accent); }
+    input::placeholder { color: var(--text-3); font-weight: 400; }
+
+    .forgot {
+      float: right;
+      font-size: 11px;
+      color: var(--accent);
+      cursor: pointer;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--accent);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px;
+      cursor: pointer;
+      margin-top: 24px;
+      font-family: inherit;
+      letter-spacing: -0.2px;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+
+    .submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .submit-btn:active { transform: translateY(0); }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 22px 0;
+      color: var(--text-3);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .demo-btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-2);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+
+    .demo-btn:hover { border-color: var(--text-3); color: var(--text-1); background: var(--bg-3); }
+
+    .error-box {
+      background: rgba(220,38,38,0.06);
+      border: 1px solid rgba(220,38,38,0.2);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #dc2626;
+      margin-bottom: 14px;
+      display: none;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      width: 36px; height: 36px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: var(--text-2);
+      transition: all 0.15s;
+      box-shadow: var(--shadow);
+    }
+
+    .theme-toggle:hover { background: var(--bg-3); color: var(--text-1); }
+
+    .signup-form { display: none; }
+
+    @media (max-width: 760px) {
+      .brand-panel { display: none; }
+      .auth-panel { width: 100%; min-width: unset; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" title="Toggle theme">
+  <!-- filled by JS -->
+</button>
+
+<div class="brand-panel">
+  <div class="brand-logo">
+    <div class="brand-dot"></div>
+    <span class="brand-name">AI Website Builder</span>
+  </div>
+
+  <div class="brand-text">
+    <div class="brand-tag">
+      <div class="brand-tag-dot"></div>
+      Powered by Gemini
+    </div>
+    <h1 class="brand-heading">
+      Build websites<br>with <span>just words.</span>
+    </h1>
+    <p class="brand-desc">
+      Describe any website you can imagine. AI generates a complete, beautiful, production-ready page — instantly.
+    </p>
+  </div>
+
+  <div class="model-wrap" id="model-wrap">
+    <canvas id="model-canvas"></canvas>
+    <div class="model-hint" id="model-hint">
+      <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>
+      Drag to rotate
+    </div>
+  </div>
+
+  <div class="feature-pills">
+    <div class="feature-pill">
+      <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Live streaming
+    </div>
+    <div class="feature-pill">
+      <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Edit & enhance
+    </div>
+    <div class="feature-pill">
+      <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      Multi-device preview
+    </div>
+    <div class="feature-pill">
+      <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+      Project folders
+    </div>
+  </div>
+</div>
+
+<div class="auth-panel">
+  <div class="auth-card">
+    <h2 class="auth-heading">Welcome back</h2>
+    <p class="auth-sub">Sign in to your account to continue building</p>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchTab('login')">Sign In</button>
+      <button class="auth-tab" onclick="switchTab('signup')">Create Account</button>
+    </div>
+
+    <div id="login-form">
+      <div class="error-box" id="login-error"></div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label>Password <span class="forgot" onclick="forgotPw()">Forgot password?</span></label>
+        <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
+      </div>
+      <button class="submit-btn" onclick="handleLogin()">Sign In</button>
+      <div class="divider">or</div>
+      <button class="demo-btn" onclick="demoLogin()">Continue as Demo User</button>
+    </div>
+
+    <div id="signup-form" class="signup-form">
+      <div class="error-box" id="signup-error"></div>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="signup-name" placeholder="John Doe" autocomplete="name" />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="signup-email" placeholder="you@example.com" autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="signup-password" placeholder="Min. 6 characters" autocomplete="new-password" />
+      </div>
+      <button class="submit-btn" onclick="handleSignup()">Create Account</button>
+      <div class="divider">or</div>
+      <button class="demo-btn" onclick="demoLogin()">Continue as Demo User</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── THEME ──
+const SVG_MOON = `<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+const SVG_SUN  = `<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+
+const savedTheme = localStorage.getItem('ai_builder_theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+document.getElementById('theme-btn').innerHTML = savedTheme === 'dark' ? SVG_SUN : SVG_MOON;
+
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('ai_builder_theme', next);
+  document.getElementById('theme-btn').innerHTML = next === 'dark' ? SVG_SUN : SVG_MOON;
+  updateSceneTheme(next);
+}
+
+// Redirect if already logged in
+if (localStorage.getItem('ai_builder_user')) window.location.href = '/';
+
+// ── AUTH ──
+function switchTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach((t, i) => t.classList.toggle('active', (i === 0) === (tab === 'login')));
+  document.getElementById('login-form').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('signup-form').style.display = tab === 'signup' ? 'block' : 'none';
+  const h = { login: ['Welcome back', 'Sign in to your account to continue building'], signup: ['Create account', 'Start building amazing websites today'] };
+  document.querySelector('.auth-heading').textContent = h[tab][0];
+  document.querySelector('.auth-sub').textContent = h[tab][1];
+}
+
+function handleLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-password').value;
+  const err   = document.getElementById('login-error');
+  if (!email || !pass) { err.textContent = 'Please enter your email and password.'; err.style.display = 'block'; return; }
+  const users = JSON.parse(localStorage.getItem('ai_builder_users') || '[]');
+  const user  = users.find(u => u.email === email && u.password === pass);
+  if (!user) { err.textContent = 'Invalid email or password.'; err.style.display = 'block'; return; }
+  localStorage.setItem('ai_builder_user', JSON.stringify({ name: user.name, email: user.email }));
+  window.location.href = '/';
+}
+
+function handleSignup() {
+  const name  = document.getElementById('signup-name').value.trim();
+  const email = document.getElementById('signup-email').value.trim();
+  const pass  = document.getElementById('signup-password').value;
+  const err   = document.getElementById('signup-error');
+  if (!name || !email || !pass) { err.textContent = 'Please fill in all fields.'; err.style.display = 'block'; return; }
+  if (pass.length < 6) { err.textContent = 'Password must be at least 6 characters.'; err.style.display = 'block'; return; }
+  const users = JSON.parse(localStorage.getItem('ai_builder_users') || '[]');
+  if (users.find(u => u.email === email)) { err.textContent = 'An account with this email already exists.'; err.style.display = 'block'; return; }
+  users.push({ name, email, password: pass });
+  localStorage.setItem('ai_builder_users', JSON.stringify(users));
+  localStorage.setItem('ai_builder_user', JSON.stringify({ name, email }));
+  window.location.href = '/';
+}
+
+function demoLogin() {
+  localStorage.setItem('ai_builder_user', JSON.stringify({ name: 'Demo User', email: 'demo@aibuilder.app' }));
+  window.location.href = '/';
+}
+
+function forgotPw() { alert('Enter your email and contact support to reset your password.'); }
+
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  const isLogin = document.getElementById('login-form').style.display !== 'none';
+  if (isLogin) handleLogin(); else handleSignup();
+});
+
+// ── 3D SCENE ──
+(function initScene() {
+  const wrap   = document.getElementById('model-wrap');
+  const canvas = document.getElementById('model-canvas');
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  camera.position.z = 5.5;
+
+  // Resize handler
+  function resize() {
+    const w = wrap.clientWidth;
+    const h = wrap.clientHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  resize();
+  const ro = new ResizeObserver(resize);
+  ro.observe(wrap);
+
+  // Lighting
+  scene.add(new THREE.AmbientLight(0xffffff, 0.25));
+
+  const keyLight = new THREE.PointLight(0xF05A1A, 4, 12);
+  keyLight.position.set(3, 3, 3);
+  scene.add(keyLight);
+
+  const fillLight = new THREE.PointLight(0xffffff, 1.2, 12);
+  fillLight.position.set(-3, -1, 2);
+  scene.add(fillLight);
+
+  const rimLight = new THREE.PointLight(0xFF8C5A, 2, 10);
+  rimLight.position.set(0, -3, -2);
+  scene.add(rimLight);
+
+  // Main icosahedron
+  const mainGeo = new THREE.IcosahedronGeometry(1.25, 1);
+  const mainMat = new THREE.MeshStandardMaterial({
+    color: 0xF05A1A,
+    metalness: 0.25,
+    roughness: 0.35,
+  });
+  const mainMesh = new THREE.Mesh(mainGeo, mainMat);
+  scene.add(mainMesh);
+
+  // Outer wireframe cage
+  const cageGeo = new THREE.IcosahedronGeometry(1.65, 1);
+  const cageMat = new THREE.MeshBasicMaterial({
+    color: 0xF05A1A,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.12,
+  });
+  const cage = new THREE.Mesh(cageGeo, cageMat);
+  scene.add(cage);
+
+  // Inner glow core
+  const coreGeo = new THREE.SphereGeometry(0.85, 16, 16);
+  const coreMat = new THREE.MeshBasicMaterial({
+    color: 0xFF6B2B,
+    transparent: true,
+    opacity: 0.08,
+  });
+  const core = new THREE.Mesh(coreGeo, coreMat);
+  scene.add(core);
+
+  // Particle field
+  const pCount = 180;
+  const pPositions = new Float32Array(pCount * 3);
+  for (let i = 0; i < pCount; i++) {
+    const theta = Math.random() * Math.PI * 2;
+    const phi   = Math.acos(2 * Math.random() - 1);
+    const r     = 2.1 + Math.random() * 1.0;
+    pPositions[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
+    pPositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+    pPositions[i * 3 + 2] = r * Math.cos(phi);
+  }
+  const pGeo = new THREE.BufferGeometry();
+  pGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
+  const pMat = new THREE.PointsMaterial({
+    color: 0xF05A1A,
+    size: 0.035,
+    transparent: true,
+    opacity: 0.55,
+  });
+  const particles = new THREE.Points(pGeo, pMat);
+  scene.add(particles);
+
+  // Equatorial ring
+  const ringGeo = new THREE.TorusGeometry(2.0, 0.008, 4, 80);
+  const ringMat = new THREE.MeshBasicMaterial({ color: 0xF05A1A, transparent: true, opacity: 0.2 });
+  const ring1 = new THREE.Mesh(ringGeo, ringMat);
+  ring1.rotation.x = Math.PI / 2.5;
+  scene.add(ring1);
+
+  const ring2 = new THREE.Mesh(new THREE.TorusGeometry(2.4, 0.005, 4, 80), new THREE.MeshBasicMaterial({ color: 0xF05A1A, transparent: true, opacity: 0.1 }));
+  ring2.rotation.x = -Math.PI / 3;
+  ring2.rotation.y = Math.PI / 5;
+  scene.add(ring2);
+
+  // ── Interaction ──
+  let isDragging = false;
+  let prevMouse  = { x: 0, y: 0 };
+  let targetRotX = 0.3, targetRotY = 0;
+  let currentRotX = 0.3, currentRotY = 0;
+
+  canvas.addEventListener('mousedown', e => {
+    isDragging = true;
+    prevMouse  = { x: e.clientX, y: e.clientY };
+    canvas.style.cursor = 'grabbing';
+    document.getElementById('model-hint').classList.add('hidden');
+  });
+
+  window.addEventListener('mouseup', () => { isDragging = false; canvas.style.cursor = 'grab'; });
+
+  canvas.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    targetRotY += (e.clientX - prevMouse.x) * 0.012;
+    targetRotX += (e.clientY - prevMouse.y) * 0.012;
+    targetRotX  = Math.max(-1.2, Math.min(1.2, targetRotX));
+    prevMouse   = { x: e.clientX, y: e.clientY };
+  });
+
+  // Touch
+  canvas.addEventListener('touchstart', e => {
+    isDragging = true;
+    prevMouse  = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    document.getElementById('model-hint').classList.add('hidden');
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => { isDragging = false; });
+
+  canvas.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    targetRotY += (e.touches[0].clientX - prevMouse.x) * 0.012;
+    targetRotX += (e.touches[0].clientY - prevMouse.y) * 0.012;
+    targetRotX  = Math.max(-1.2, Math.min(1.2, targetRotX));
+    prevMouse   = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  }, { passive: true });
+
+  // Auto-hide hint after 4s
+  setTimeout(() => document.getElementById('model-hint').classList.add('hidden'), 4000);
+
+  // ── Theme sync ──
+  window.updateSceneTheme = function(theme) {
+    const isDark = theme === 'dark';
+    pMat.opacity  = isDark ? 0.65 : 0.55;
+    coreMat.opacity = isDark ? 0.12 : 0.08;
+    cageMat.opacity = isDark ? 0.18 : 0.12;
+  };
+  updateSceneTheme(savedTheme);
+
+  // ── Animation loop ──
+  let t0 = performance.now();
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    const t = (performance.now() - t0) * 0.001;
+
+    if (!isDragging) {
+      targetRotY += 0.004;
+    }
+
+    // Damped lerp
+    currentRotX += (targetRotX - currentRotX) * 0.06;
+    currentRotY += (targetRotY - currentRotY) * 0.06;
+
+    mainMesh.rotation.x = currentRotX;
+    mainMesh.rotation.y = currentRotY;
+
+    cage.rotation.x = currentRotX * 0.6;
+    cage.rotation.y = -currentRotY * 0.45;
+
+    // Float bob
+    const bob = Math.sin(t * 0.8) * 0.1;
+    mainMesh.position.y = bob;
+    core.position.y     = bob;
+    cage.position.y     = bob * 0.5;
+
+    // Particle & ring drift
+    particles.rotation.y += 0.0015;
+    particles.rotation.z += 0.0006;
+    ring1.rotation.z     += 0.003;
+    ring2.rotation.y     += 0.002;
+
+    // Subtle key light orbit
+    keyLight.position.x = Math.cos(t * 0.4) * 3.5;
+    keyLight.position.z = Math.sin(t * 0.4) * 3.5;
+
+    renderer.render(scene, camera);
+  }
+
+  animate();
+})();
+</script>
+</body>
+</html>

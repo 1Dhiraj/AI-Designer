@@ -1,0 +1,37 @@
+.page { display: flex; height: 100vh; overflow: hidden; }
+.themeToggle { position: fixed; top: 18px; right: 18px; width: 36px; height: 36px; background: var(--bg-2); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-2); transition: all 0.15s; box-shadow: var(--shadow); z-index: 10; }
+.themeToggle:hover { background: var(--bg-3); color: var(--text-1); }
+.brand { flex: 1; display: flex; flex-direction: column; padding: 36px 48px; background: var(--bg-2); border-right: 1px solid var(--border); overflow: hidden; }
+.brandLogo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.dot { width: 30px; height: 30px; background: var(--accent); border-radius: 7px; }
+.brandName { font-size: 16px; font-weight: 800; letter-spacing: -0.5px; color: var(--text-1); }
+.brandText { margin-top: 40px; flex-shrink: 0; }
+.tag { display: inline-flex; align-items: center; gap: 7px; background: var(--accent-l); border: 1px solid var(--accent-b); color: var(--accent); font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 20px; margin-bottom: 20px; }
+.tagDot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+.heading { font-size: clamp(30px, 3.2vw, 46px); font-weight: 900; line-height: 1.1; letter-spacing: -2px; color: var(--text-1); margin-bottom: 14px; }
+.heading span { color: var(--accent); }
+.desc { font-size: 15px; color: var(--text-2); line-height: 1.65; max-width: 420px; font-weight: 400; margin-bottom: 0; }
+.sceneWrap { flex: 1; min-height: 0; position: relative; margin: 24px -48px; display: flex; flex-direction: column; }
+.hint { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); font-size: 11px; font-weight: 600; color: var(--text-3); background: var(--bg-2); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; pointer-events: none; opacity: 1; transition: opacity 2s ease; letter-spacing: 0.3px; }
+.pills { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 16px; }
+.pill { display: flex; align-items: center; gap: 6px; background: var(--bg-3); border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 12px; font-weight: 600; color: var(--text-2); }
+.auth { width: 440px; min-width: 400px; display: flex; align-items: center; justify-content: center; padding: 48px; background: var(--bg); }
+.card { width: 100%; }
+.cardTitle { font-size: 26px; font-weight: 800; letter-spacing: -0.8px; color: var(--text-1); margin-bottom: 6px; }
+.cardSub { font-size: 14px; color: var(--text-2); margin-bottom: 32px; line-height: 1.5; }
+.tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 28px; }
+.tabBtn { padding: 10px 0; margin-right: 24px; font-size: 14px; font-weight: 600; cursor: pointer; color: var(--text-3); border: none; background: transparent; font-family: inherit; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s; }
+.activeTab { color: var(--text-1) !important; border-bottom-color: var(--accent) !important; }
+.error { background: rgba(220,38,38,0.06); border: 1px solid rgba(220,38,38,0.2); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #dc2626; margin-bottom: 14px; }
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 11px; font-weight: 700; color: var(--text-2); margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.6px; }
+.field input { width: 100%; background: var(--bg-2); border: 1px solid var(--border); border-radius: 10px; color: var(--text-1); font-size: 14px; padding: 12px 14px; outline: none; font-family: inherit; font-weight: 500; transition: border-color 0.15s; }
+.field input:focus { border-color: var(--accent); }
+.field input::placeholder { color: var(--text-3); font-weight: 400; }
+.submit { width: 100%; background: var(--accent); border: none; border-radius: 10px; color: white; font-size: 15px; font-weight: 700; padding: 14px; cursor: pointer; margin-top: 24px; font-family: inherit; transition: opacity 0.15s, transform 0.1s; }
+.submit:hover { opacity: 0.9; transform: translateY(-1px); }
+.divider { display: flex; align-items: center; gap: 14px; margin: 22px 0; color: var(--text-3); font-size: 12px; font-weight: 500; }
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.demo { width: 100%; background: transparent; border: 1px solid var(--border); border-radius: 10px; color: var(--text-2); font-size: 14px; font-weight: 600; padding: 12px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+.demo:hover { border-color: var(--text-3); color: var(--text-1); background: var(--bg-3); }
+@media (max-width: 760px) { .brand { display: none; } .auth { width: 100%; min-width: unset; } }

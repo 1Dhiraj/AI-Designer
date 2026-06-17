@@ -1,0 +1,64 @@
+.panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
+.toolbar { display: flex; align-items: center; gap: 8px; padding: 0 14px; height: 46px; background: var(--bg-2); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.lights { display: flex; gap: 5px; margin-right: 4px; }
+.light { width: 11px; height: 11px; border-radius: 50%; }
+.red { background: #ff5f57; }
+.yellow { background: #febc2e; }
+.green { background: #28c840; }
+.viewTabs { display: flex; background: var(--bg-3); border-radius: 8px; padding: 3px; gap: 2px; }
+.viewTab { font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 6px; cursor: pointer; color: var(--text-3); border: none; background: transparent; font-family: inherit; transition: all 0.12s; }
+.viewTab.active { background: var(--bg-2); color: var(--text-1); box-shadow: var(--shadow); }
+.deviceTabs { display: flex; gap: 3px; }
+.deviceBtn { width: 30px; height: 30px; background: transparent; border: 1px solid transparent; border-radius: 7px; color: var(--text-3); display: flex; align-items: center; justify-content: center; transition: all 0.12s; }
+.deviceBtn:hover, .deviceBtn.active { background: var(--bg-3); border-color: var(--border); color: var(--text-1); }
+.actions { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+.btn { background: var(--bg-3); border: 1px solid var(--border); border-radius: 8px; color: var(--text-2); font-size: 12px; font-weight: 600; padding: 6px 12px; cursor: pointer; font-family: inherit; transition: all 0.12s; }
+.btn:hover:not(:disabled) { border-color: var(--text-3); color: var(--text-1); }
+.btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.accent { background: var(--accent) !important; border-color: var(--accent) !important; color: white !important; }
+.accent:hover { opacity: 0.88; }
+.area { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
+.empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding: 40px; color: var(--text-3); }
+.emptyIcon { width: 64px; height: 64px; background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow); }
+.emptyTitle { font-size: 17px; font-weight: 800; letter-spacing: -0.4px; color: var(--text-2); }
+.emptySub { font-size: 13px; color: var(--text-3); max-width: 260px; line-height: 1.6; }
+.scroll { flex: 1; min-height: 0; overflow: auto; display: flex; align-items: flex-start; justify-content: center; }
+.full { overflow: hidden; }
+.iframe { border: none; background: white; display: block; }
+.desktop { width: 100%; height: 100%; align-self: stretch; flex: 1; }
+.tablet { width: 768px; height: 100%; min-height: 100%; align-self: stretch; }
+.mobile { width: 390px; height: 844px; margin: 20px auto; border-radius: 20px; box-shadow: 0 0 0 10px var(--bg-3), 0 20px 60px rgba(0,0,0,0.15); }
+.codeView { flex: 1; overflow: auto; padding: 18px; background: var(--bg); position: relative; }
+.code { font-family: 'Cascadia Code','Fira Code','Consolas',monospace; font-size: 12px; line-height: 1.7; color: var(--text-2); white-space: pre-wrap; word-break: break-all; }
+
+/* Generating state */
+.generating { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding: 40px; }
+.genOrb { width: 72px; height: 72px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, rgba(240,90,26,0.9), rgba(240,90,26,0.2)); box-shadow: 0 0 0 12px var(--accent-l), 0 0 40px rgba(240,90,26,0.3); animation: orbPulse 1.8s ease-in-out infinite; }
+.genLabel { font-size: 14px; font-weight: 700; color: var(--text-2); letter-spacing: -0.3px; }
+.genBars { display: flex; flex-direction: column; gap: 9px; width: 260px; }
+.bar { height: 8px; background: linear-gradient(90deg, var(--accent) 0%, var(--accent-b) 100%); border-radius: 4px; animation: barShimmer 1.4s ease-in-out infinite; }
+
+/* Streaming overlay on iframe */
+.scroll { position: relative; }
+.iframeOverlay { position: absolute; top: 0; left: 0; right: 0; z-index: 10; display: flex; justify-content: center; padding-top: 14px; pointer-events: none; }
+.streamPill { background: var(--accent); color: white; font-size: 11px; font-weight: 700; padding: 5px 14px; border-radius: 20px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(240,90,26,0.4); animation: pillPulse 1.2s ease-in-out infinite; }
+
+/* Streaming bar on code view */
+.streamingBar { position: sticky; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); background-size: 200% 100%; animation: scanLine 1.2s linear infinite; margin: -18px -18px 14px; }
+
+@keyframes orbPulse {
+  0%,100% { transform: scale(1);   box-shadow: 0 0 0 12px var(--accent-l), 0 0 40px rgba(240,90,26,0.3); }
+  50%      { transform: scale(1.08); box-shadow: 0 0 0 18px var(--accent-l), 0 0 60px rgba(240,90,26,0.5); }
+}
+@keyframes barShimmer {
+  0%,100% { opacity: 0.35; }
+  50%      { opacity: 1; }
+}
+@keyframes pillPulse {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.6; }
+}
+@keyframes scanLine {
+  0%   { background-position: -100% 0; }
+  100% { background-position: 300% 0; }
+}
